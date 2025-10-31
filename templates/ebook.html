@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <!-- Meta Tags -->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src * 'self' 'unsafe-inline' 'unsafe-eval' data: gap:">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#FF8040">
+  <meta name="robots" content="noindex,nofollow">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+  <!--CSS-->
+  <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+
+  <!-- Título -->
+  <title>E-books UniFil EaD</title>
+
+  <!-- Favicon -->
+  <link rel="apple-touch-icon" href="{{ url_for('static', filename='img/apple-touch-icon.png') }}">
+  <link rel="icon" href="{{ url_for('static', filename='img/favicon.svg') }}">
+
+  <!--Scripts-->
+
+</head>
+<body>
+  <div class="container">
+    <img src="{{ url_for('static', filename='img/logo-unifil.svg') }}" alt="Logo UniFil" class="logo" />
+    <h1 id="titulo">Baixe seu E-book gratuito!</h1>
+    <p>Preencha o formulário e baixe agora o seu e-book <span>gratuito da UniFil EaD</span>, recheado de dicas e insights!</p>
+
+    <form id="ebookForm" novalidate>
+      <div class="input-wrapper">
+        <input type="text" id="nome" name="nome" placeholder="Seu nome completo" required />
+        <div class="error-message" id="nomeError">Por favor, insira seu nome completo (nome e sobrenome)</div>
+      </div>
+      
+      <div class="input-wrapper">
+        <input type="email" id="email" name="email" placeholder="Seu e-mail" required />
+        <div class="error-message" id="emailError">Por favor, insira um e-mail válido</div>
+      </div>
+      
+      <div class="input-wrapper">
+        <input type="tel" id="telefone" name="telefone" placeholder="(00) 00000-0000" required />
+        <div class="error-message" id="telefoneError">Por favor, insira um telefone completo</div>
+      </div>
+
+      <div class="input-wrapper">
+        <select id="escolaridade" name="escolaridade" required>
+          <option value="" disabled selected>Selecione sua escolaridade</option>
+          <option value="6">Ensino Médio Incompleto</option>
+          <option value="7">Ensino Médio Completo</option>
+          <option value="8">Ensino Superior Incompleto</option>
+          <option value="9">Ensino Superior Completo</option>
+        </select>
+        <div class="error-message" id="escolaridadeError">Por favor, selecione sua escolaridade</div>
+      </div>
+
+      <div class="checkbox-wrapper" id="consentimentoWrapper">
+        <input type="checkbox" id="consentimento" name="consentimento" required />
+        <label for="consentimento">
+          Aceito receber conteúdos e lembretes sobre a UniFil por email, SMS e WhatsApp, nos termos da <a href="https://unifil.br/politica-de-privacidade" target="_blank">política de privacidade</a>.
+        </label>
+      </div>
+      <div class="error-message" id="consentimentoError">Você precisa aceitar os termos para continuar</div>
+      
+      <button type="submit">Baixar E-book</button>
+    </form>
+
+    <div id="mensagem" class="mensagem">
+      <div class="spinner" id="spinner"></div>
+      <span id="mensagem-texto">O download iniciará em instantes...</span>
+    </div>
+
+    <p class="footer">UniFil © 2025 - Todos os direitos reservados</p>
+  </div>
+  <script src="{{ url_for('static', filename='js/script.js') }}">
+  </script>
+  <script>
+    // Define o arquivo de acordo com o parâmetro
+    const params = new URLSearchParams(window.location.search);
+    const ebook = params.get("ebook");
+    let ebookFile = '';
+    switch(ebook) {
+    case 'gastronomia': ebookFile = "ebook-gastronomia-unifil-ead.pdf"; break;
+    case 'enem': ebookFile = "ebook-enem-unifil-ead.pdf"; break;
+    case 'ia': ebookFile = "ebook-ia-unifil-ead.pdf"; break;
+    default: ebookFile = "ebook-unifil-ead.pdf";
+    } 
+    console.log(ebookFile)
+  </script>
+
+</body>
+</html>
