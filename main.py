@@ -132,9 +132,9 @@ def send_data():
     crm_nome = data.get("nome").upper()
     crm_email = data.get("email").upper()
     crm_telefone = data.get("telefone")
-    send_lead_rubeus(crm_nome,crm_email,crm_telefone,schoollv)
+    send_lead_rubeus(crm_nome,crm_email,crm_telefone,schoollv,ebookFile)
     #Redirecionar
-    downloadurl = "http://127.0.0.1:5000" + app.url_for('download') + f"?filename={ebookFile}" 
+    downloadurl = "https://ebooks.unifil.br" + app.url_for('download') + f"?filename={ebookFile}" 
     message = define_student_email(downloadurl )
     attachment = ebookFile
     send_email("Ebooks UniFil", message, attachment, crm_email)

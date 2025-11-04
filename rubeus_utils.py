@@ -4,9 +4,9 @@ import requests
 import json
 
 #Envia Lead para Rubeus
-def send_lead_rubeus(name, email, phone, grauInstrucao):
-    origin = os.environ.get('RUBEUS_ORIGEM')
-    token = os.environ.get('RUBEUS_TOKEN')
+def send_lead_rubeus(name, email, phone, grauInstrucao, ebook):
+    origin = os.environ.get('RUBEUS_ORIGEM_EBOOK')
+    token = os.environ.get('RUBEUS_TOKEN_EBOOK')
     #Cadastrar usuario no sistema
     url = os.environ.get('RUBEUS_URL')+"/Contato/cadastro"
     data = {
@@ -29,13 +29,14 @@ def send_lead_rubeus(name, email, phone, grauInstrucao):
     #Criar evento de isncrição do curso
     url = os.environ.get('RUBEUS_URL')+"/Evento/cadastro"
     data = {
-        "tipo": 578,
+        "tipo": 598,
         "pessoa" : {
             "id": response['dados']
         },
-        "descricao":"Increveu-se para Tour Gastronimia com bolsa de 40%",
-        "origem": 136,
-        "token": "82ce5d704d33d630cf3a05b5aa40def9"
+        "descricao":"Increveu-se campanha Ebook.",
+        "origem": origin,
+        "camposPersonalizados" : { "campopersonalizado_97_compl_proc": ebook },
+        "token": token
     }
     print(data)
     response = requests.post(url=url,data=json.dumps(data),headers={"Content-Type":"application/json"}).json()

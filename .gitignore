@@ -182,3 +182,4 @@ cython_debug/
 ebooksenv
 token.json
 static/img/background.kra
+credentials.json
