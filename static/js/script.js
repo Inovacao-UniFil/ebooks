@@ -252,7 +252,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const link = document.createElement('a');
         link.href = downloadurl;
         link.download = ebookFile;
-        link.click();
+        //link.click();
         
         // Exibe confirmação final de sucesso
         spinner.style.display = 'none';
