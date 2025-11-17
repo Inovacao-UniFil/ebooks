@@ -35,16 +35,42 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     // Máscara de telefone
-    telefoneInput.addEventListener('input', (e) => {
+    telefoneInput.addEventListener('input', function(e) {
+        // Remove tudo que não é número
         let value = e.target.value.replace(/\D/g, '');
-        if (value.length > 11) value = value.slice(0, 11);
-        if (value.length > 6) {
-        e.target.value = `(${value.slice(0,2)}) ${value.slice(2,7)}-${value.slice(7)}`;
-        } else if (value.length > 2) {
-        e.target.value = `(${value.slice(0,2)}) ${value.slice(2)}`;
-        } else {
-        e.target.value = value;
+        console.log(value)
+        // Limita a 11 dígitos
+        if (value.length > 15) {
+            value = value.slice(0, 15);
         }
+        console.log(value)
+        
+        // Aplica a máscara progressivamente
+        let formatted = '';
+        
+        if (value.length < 12) {
+            if (value.length > 0){
+                formatted = '(' + value.substring(0, 2);
+            }
+            
+            if (value.length >= 3) {
+                formatted += ') ' + value.substring(2, 7);
+            }
+            
+            if (value.length >= 8) {
+                formatted += '-' + value.substring(7, 11);
+            }
+        }
+        
+        if (value.length > 11) {
+            formatted = '+' + value.substring(0, 2);
+            formatted += ' (' + value.substring(2, 4);
+            formatted += ') ' + value.substring(4, 9);
+            formatted += '-' + value.substring(9, 13);
+        }
+        console.log(formatted)
+        // Atualiza o valor
+        e.target.value = formatted;
     });
 
     // Função para validar nome completo (nome e sobrenome)
@@ -62,7 +88,10 @@ document.addEventListener("DOMContentLoaded", function () {
     // Função para validar telefone completo (11 dígitos)
     function validarTelefone(telefone) {
         const numeroLimpo = telefone.replace(/\D/g, '');
-        return numeroLimpo.length === 11;
+        let is11long = numeroLimpo.length === 11;
+        let is13long = numeroLimpo.length === 13;
+
+        return is11long || is13long;
     }
 
     // ===== VALIDAÇÃO EM TEMPO REAL - NOME =====
@@ -217,8 +246,11 @@ document.addEventListener("DOMContentLoaded", function () {
         mensagem.style.display = 'flex';
         mensagem.classList.remove('sucesso');
         spinner.style.display = 'block';
-        mensagemTexto.textContent = 'O download iniciará automaticamente...';
-
+        mensagemTexto.textContent = 'Estamos enviando seu E-book...';
+        telefoneValue = telefoneInput.value.replace(/\D/g, '');
+        if(telefoneValue.length > 11){
+            telefoneValue = telefoneValue.substring(2,13)
+        }
         // Envio dos dados ao CRM
         try {
         await fetch("/send_data", {
@@ -257,7 +289,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // Exibe confirmação final de sucesso
         spinner.style.display = 'none';
         mensagem.classList.add('sucesso');
-        mensagemTexto.textContent = 'Download concluído! Aproveite sua leitura.';
+        mensagemTexto.textContent = 'E-Book Enviado! Aproveite sua leitura.';
         }, 1200);
     });
 });
